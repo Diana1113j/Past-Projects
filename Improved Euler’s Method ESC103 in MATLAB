@@ -1,0 +1,81 @@
+
+N = [15 30 60];
+% open new figure and plot the two analytical solutions
+figure
+subplot(2,1,1)
+plot(t_plot,cos_plot,"DisplayName","true solution")
+hold on
+subplot(2,1,2)
+plot(t_plot,sin_plot,"DisplayName","true solution")
+hold on
+
+% loop through different N values and solve with IEMsolver for each
+for i=1:length(N)
+  % compute vector of timesteps
+  currentN = N(i);
+  t = 0:(T/currentN):T;
+  % solve with IEMsolver
+  [x,y] = IEMsolver(A,x_0,y_0,T,currentN);
+
+  % add to plots
+  subplot(2,1,1)  
+  plot(t,x,linetypes(i),"DisplayName","N="+num2str(currentN))
+  subplot(2,1,2)
+  plot(t,y,linetypes(i),"DisplayName","N="+num2str(currentN))
+end
+
+% add legend, titles, and axis labels to top plot
+subplot(2,1,1)
+xlabel("t")
+ylabel("x(t)")
+title("IEM Solutions for x(t)")
+legend("Location","bestoutside") %puts legend in a nice spot outside plot
+
+% add legend, titles, and axis labels to bottom plot
+subplot(2,1,2)
+xlabel("t")
+ylabel("y(t)")
+title("IEM Solutions for y(t)")
+legend("Location","bestoutside")
+
+function [x,y] = IEMsolver(A,x_0,y_0,T,N)
+%IEMSolver Solves an initial value problem using Improved Euler's Method
+% This function takes as input an A matrix that describes a specific
+% differential equation problem of form Z'=AZ with Z a vector that
+% contains the variables (e.g., x(t), y(t)) in the differential equation.
+% It also takes initial values x_0=x(0) and y_0=y(0), the end time of the
+% function approximation T (with t in [0,T]), and the number of timesteps
+% N that should be used for the approximation.
+
+  % compute a vector of timesteps of size dt=T/N
+  dt = T/N;
+  t = 0:dt:T;
+
+  % initialize the vector that will contain the solution x(t) and y(t)
+  SOL = NaN(2,length(t));
+  SOL(1,1) = x_0;
+  SOL(2,1) = y_0;
+
+  % iteratively approximate the solution values at each timestep by
+  % computing a slope estimate S that averages a left side estimate SL
+  % and a right side estimate SR
+  
+  for k = 2:length(t)  
+    % compute left side estimate SL as AZ_(k-1) using the value we
+    % already have for the most recent approximate solution value
+    SL = A*SOL(:,k-1);
+
+    % compute right side estimate SR as AZ_(k) by using the Euler's
+    % method estimate for Z_(k)
+    SR = A*(SOL(:,k-1) + dt*A*SOL(:,k-1)); % A*EM estimate for SOL(:,k)
+
+    % average the slopes
+    S = (SL+SR)/2;
+
+    % approximate next solution value using S as the slope estimate    
+    SOL(:,k) = SOL(:,k-1) + dt*S;
+  end
+  % return the x(t) and y(t) parts of the solution as different vectors
+  x = SOL(1,:);
+  y = SOL(2,:);
+end
