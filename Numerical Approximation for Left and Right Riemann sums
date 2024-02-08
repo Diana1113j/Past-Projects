@@ -1,0 +1,62 @@
+
+a = 0;
+b = 3;
+soln_analytical = 14/3
+n = 10;
+delta_x = (b - a)/n
+
+Lx = a:delta_x:(b - delta_x)
+
+Rx = delta_x:delta_x:b
+
+Lf = (Lx + 1).^(1/2)
+Rf = (Rx + 1).^(1/2)
+
+delta_x_vec = delta_x*ones(n,1)
+
+Ln = dot(Lf,delta_x_vec)
+Rn = dot(Rf,delta_x_vec)
+
+n_start = 10;
+n_end = 100;
+number_n_vals = n_end - n_start + 1
+Ln_plot = zeros(1,number_n_vals);
+Rn_plot = zeros(1,number_n_vals);
+
+n_vals = n_start:n_end
+
+for i = 1:number_n_vals
+    % compute x interval and make it into a column vector
+    n = n_vals(i);
+    delta_x = (b - a)/n;
+    delta_x_vec = delta_x*ones(n,1);
+    % compute x locations of interest (subinterval function locations)
+    Lx = a:delta_x:(b - delta_x);
+    Rx = delta_x:delta_x:b;
+    % compute function values
+    Lf = (Lx + 1).^(1/2);
+    Rf = (Rx + 1).^(1/2);
+    % take the dot product to get sum value for current n value
+    Ln = dot(Lf,delta_x_vec);
+    Rn = dot(Rf,delta_x_vec);
+    % save these sum values for future reference
+    Ln_plot(i) = Ln;
+    Rn_plot(i) = Rn;
+end
+Ln_plot
+Rn_plot
+
+hold on
+plot(n_vals,Ln_plot,'*b')
+plot(n_vals,Rn_plot,'*g')
+plot(n_vals,soln_analytical*ones(1,number_n_vals),'-r')
+
+% add annotations
+xlabel("Number of subintervals n")
+ylabel("Value of integral")
+title("Left and Right Riemann Sum Approximations to Definite Integral")
+legend("Left Riemann sum",'Right Riemann sum','Analytical value of integral')
+
+Ln_plot(end)
+Rn_plot(end)
+soln_analytical 
