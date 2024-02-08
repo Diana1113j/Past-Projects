@@ -1,0 +1,333 @@
+ max_shear_vals = zeros(1,2057); %stores maximum shear values for each
+train position
+max_moment_vals = zeros(1,2057); %stores maximum moment values for each
+train position
+x_train_vals = -908:1148; %includes train position where only part of
+the train is on the main span
+%these positions were included because the maximum shear force actually
+%occurs when the leftmost train wheels move onto the main span (x_train
+= -52)
+shear_envelope = zeros(1,1201); %stores maximum shear values at each
+point on the main span
+moment_envelope = zeros(1,1201); %stores bending moment values at each
+point on the main span
+  for k = -908:1148 %iterates through each possible train position
+%from the first train wheels on the main span, to the last
+   shear_vals = find_shear_vals(k); %shear values for the main span for
+each k-value
+   moment_vals = find_moment_vals(k); %moment values for the main span
+for each k-value
+     max_shear_vals(k+1+908) = max(abs(shear_vals)); %adds maximum shear
+value to vector storing them
+   max_moment_vals(k+1+908) = max(moment_vals); %adds maximum moment
+value to vector storing them
+     for i = 1:1201 %iterates through each bridge position
+       if shear_envelope(i) < abs(shear_vals(i)); %updates each element
+of the shear envelope
+%if the shear value for the current value of k is greater than the
+stored value
+           shear_envelope(i) = abs(shear_vals(i));
+ 
+     end
+    if moment_envelope(i) < moment_vals(i) %same thing for the moment
+        moment_envelope(i) = moment_vals(i);
+end end
+ value
+ end
+   [max_shear, max_shear_x] = max(max_shear_vals); %finds the value and
+index of the absolute maximum shear force
+max_shear_x = max_shear_x - 909
+max_shear_location = find(abs(find_shear_vals(max_shear_x)) ==
+max_shear) - 1 %finds where on the bridge span the max shear occurs
+ disp ("Shear and Bending Moment Envelopes")
+  plot(0:1200, shear_envelope) %plots shear envelope
+title("Shear Envelope - Maximum Shear At Each Location Along Bridge")
+ylabel("Shear Force (N)")
+xlabel("Location on Bridge Span")
+hold on;
+plot(max_shear_location + 1, max_shear, "o") %plots max shear location
+legend("Maximum Shear Force At Each Bridge Location", "Absolute Maximum
+Shear Force");
+hold off;
+  
+ [max_moment, max_moment_x] = max(max_moment_vals); %finds the value and
+index of the absolute maximum moment
+max_moment_x = max_moment_x - 909
+max_moment_location = find(find_moment_vals(max_moment_x) == max_moment)
+- 1 %all this is the same as line 32-34, but for moment
+   plot(0:1200, moment_envelope) %plots moment envelope
+title("Moment Envelope - Maximum Moment At Each Location Along Bridge")
+ylabel("Bending Moment (Nmm)")
+xlabel("Location on Bridge Span")
+hold on;
+plot(max_moment_location, max_moment, "o") %plots max moment location
+legend("Max Moment - Main Span", "Overall Maximum Moment");
+hold off;
+ %Cross_Sectional Properties (Copied/Pasted From Processing Code)
+disp("Cross Sectional Properties - Chosen Design")
+    A = 766.3942
+h = 137.54001
+b = 130.0
+y_bar = 90.77962
+b_centroid = 2.54
+b_glue = 10.54
+I = 2082651.5
+Q_centroid = 17947.174
+Q_glue = 15020.928
+ 
+ %CHANGE THIS MANUALLY FOR EACH DESIGN
+%this code is for the number and location of the diaphragms
+diaphragms = 9;
+diaphragm_locations = [0, 110, 240, 390, 600, 810, 960, 1090, 1200];
+%CHANGE THIS MANUALLY FOR EACH DESIGN
+   %Material Properties
+tensile_capacity = zeros(1,1201) + 30;
+compressive_capacity = zeros(1,1201) + 6;
+shear_capacity = zeros(1,1201) + 4;
+glue_capacity = zeros(1,1201) + 2;
+  global E
+E = 4000;
+global u
+u = 0.2;
+  %Buckling Capacities
+%CHANGE THIS FOR EACH DESIGN
+case_1 = zeros(1,1201) + flex_buckling_capacity(4, 2*1.27, 60-1.27);
+%top flange middle buckling
+case_2 = zeros(1,1201) + flex_buckling_capacity(0.425, 2*1.27, 35 +
+1.27/2); %top flange overhang buckling
+case_3 = zeros(1,1201) + flex_buckling_capacity(6, 1.27, h - (2*1.27) -
+(1.27/2) - y_bar); %side flange buckling
+case_4 = zeros(1,1201) + shear_buckling_capacity(5, 1.27, h - (3*1.27) -
+(1.27), diaphragm_locations); %shear buckling
+
+ %thicknesse (3rd function input) hav eto be adjusted manually for each
+design
+%CHANGE THIS FOR EACH DESIGN
+  bending_stress_top = moment_envelope.*(h - y_bar)/I; %top bending stress
+(compressive)
+bending_stress_bottom = moment_envelope.*(y_bar)/I; %bottom bending
+stress (tensile)
+   max_bending_stress_top = max(bending_stress_top)
+max_bending_stress_bottom = max(bending_stress_bottom)
+ disp("Bending Stress Capacities")
+  plot(0:1200, bending_stress_bottom) %plots bottom bending stress
+title("Maximum Tensile Bending Stress vs. Matboard Tensile Strength")
+ylabel("Bending Stress (MPa)")
+xlabel("Bridge Location (mm)")
+xlim([0,1200]) %sets range of axes
+ylim([0,35])
+hold on;
+plot(0:1200, tensile_capacity); %plots tensile failure value
+  legend("Top Tensile Stress", "Matboard Tensile Capacity")
+hold off;
+  plot(0:1200, bending_stress_top) %plots top bending stress
+title("Maximum Compressive Bending Stress vs. Matboard Compressive
+Strength")
+ylabel("Bending Stress (MPa)")
+ 
+ xlabel("Bridge Location (mm)")
+xlim([0,1200]) %sets range of axes
+ylim([0,7])
+hold on;
+plot(0:1200, compressive_capacity); %plots compressive failure value
+   legend("Top Compressive Stress", "Matboard Compressive Capacity")
+hold off;
+  plot(0:1200, bending_stress_top) %same thing but plots top bending
+stress with top flange buckling
+title("Maximum Compressive Bending Stress vs. Top Flange Buckling
+Capacity")
+ylabel("Bending Stress (MPa)")
+xlabel("Bridge Location (mm)")
+xlim([0,1200])
+ylim([0,30])
+hold on;
+plot(0:1200, case_1); %plots case 1 buckling capacity
+plot(0:1200, case_2); %plots case 2 buckling capacity
+  legend("Top Compressive Stress", "Middle Buckling Capacity (Case 1)",
+"Overhang Buckling Capacity (Case 2)")
+hold off;
+ plot(0:1200, bending_stress_top) %same thing but for side flange
+buckling
+title("Maximum Compressive Bending Stress vs. Side Flange Buckling
+Capacity")
+ylabel("Bending Stress (MPa)")
+ 
+ xlabel("Bridge Location (mm)")
+xlim([0,1200])
+ylim([0,35])
+  hold on;
+plot(0:1200, case_3); %plots case 3 buckling capacity
+legend("Top Compressive Stress", "Side Buckling Capacity (Case 3)")
+hold off;
+   disp("Shear Force Capacities")
+  max_shear_centroid = (shear_envelope.*Q_centroid)/(I*b_centroid);
+%calculates maximum shear stress at centroid along main span
+max_shear_glue = (shear_envelope.*Q_glue)/(I*b_glue); %calculates
+maximum shear stress at top glue joint along main span
+ max_shear_stress = max(max_shear_centroid)
+max_shear_stress_glue = max(max_shear_glue)
+  plot(0:1200, max_shear_centroid, "g") %plots centroid shear stress
+title("Maximum Shear Stress  vs. Shear Failure Capacity")
+ylabel("Shear Stress (MPa)")
+xlabel("Bridge Location (mm)")
+xlim([0,1200])
+ylim([0,5])
+   hold on;
+
+ plot(0:1200, shear_capacity) %plots matboard shear strength
+legend("Centroidal Axis Shear Stress", "Failure Shear Stress")
+hold off;
+  plot(0:1200, max_shear_centroid, "g") %same thing but with shear
+buckling
+title("Maximum Shear Stress vs. Shear Buckling Capacity")
+ylabel("Shear Stress (MPa)")
+xlabel("Bridge Location (mm)")
+xlim([0,1200])
+ylim([0,10])
+   hold on;
+plot(0:1200, case_4) %shear buckling capacity
+legend("Centroidal Axis Shear Stress", "Failure Shear Buckling Stress")
+hold off;
+  plot(0:1200, max_shear_glue, "b") %same thing but for the glue tab
+title("Maximum Glue Joint Shear Stress vs. Glue Joint Shear Capacity")
+ylabel("Shear Stress (MPa)")
+xlabel("Bridge Location (mm)")
+xlim([0,1200])
+ylim([0,3])
+ hold on;
+plot(0:1200, glue_capacity, "m") %plots glue shear strength
+legend("Glue Joint Shear Stress", "Glue Joint Shear Capacity")
+hold off;
+ 
+  %FACTORS OF SAFETY
+%outputs factors of safety (capacity/demand) for each of the 8 failure
+%types for each location along main span of bridge
+FOS_tension = tensile_capacity./bending_stress_bottom;
+FOS_compression = compressive_capacity./bending_stress_top;
+FOS_shear = shear_capacity./max_shear_centroid;
+FOS_glue = glue_capacity./max_shear_glue;
+   FOS_case1 = case_1./bending_stress_top;
+FOS_case2 = case_2./bending_stress_top;
+FOS_case3 = case_3./bending_stress_top;
+FOS_case4 = case_4./max_shear_centroid;
+  %finds minimum FOSs across the entire bridge for each failure type and
+%outputs it
+min_FOS_tension = min(FOS_tension)
+min_FOS_compression = min(FOS_compression)
+min_FOS_shear = min(FOS_shear)
+min_FOS_glue = min(FOS_glue)
+ min_FOS_case1 = min(FOS_case1)
+min_FOS_case2 = min(FOS_case2)
+min_FOS_case3 = min(FOS_case3)
+min_FOS_case4 = min(FOS_case4)
+ 
+  %finds overall minimum factor of safety
+min_FOS = min( ...
+   [min_FOS_tension, ...
+   min_FOS_compression, ...
+   min_FOS_shear, ...
+   min_FOS_glue, ...
+   min_FOS_case1, ...
+   min_FOS_case2, ...
+   min_FOS_case3, ...
+   min_FOS_case4]);
+   maximum_train_load = 400*(min_FOS) %calculates maximum train load
+minimum_factor_of_safety = min_FOS %outputs overall minimum factor of
+safety
+ if min_FOS == min_FOS_tension %outputs reason for failure (failure type
+with lowest FOS)
+   reason_for_failure = "Yielding in Tension"
+elseif min_FOS == min_FOS_compression
+   reason_for_failure = "Yielding in Compression"
+elseif min_FOS == min_FOS_shear
+   reason_for_failure = "Shear Failure At Centroid"
+elseif min_FOS == min_FOS_glue
+   reason_for_failure = "Shear Failure At Glue Joint"
+elseif min_FOS == min_FOS_case1
+   reason_for_failure = "Case 1 Buckling (Top Flange)"
+elseif min_FOS == min_FOS_case2
+   reason_for_failure = "Case 2 Buckling (Top Flange Overhang)"
+ 
+ elseif min_FOS == min_FOS_case3
+   reason_for_failure = "Case 3 Buckling(Side Flanges)"
+elseif min_FOS == min_FOS_case4
+   reason_for_failure = "Case 4 Buckling (Shear Buckling)"
+end
+  function shear_vals = find_shear_vals(x) %function that calculates SFD
+for each train position
+   load = 400/6;
+shear_vals = zeros(1,1201);
+moment_vals = zeros(1,1201);
+loads = [52,228,392,568,732,908] + x;
+m = loads;
+load_points = [];
+cnt = 1;
+for i = 1:6
+    if loads(i) >= 0 & loads(i) < 1201
+        load_points(cnt) = loads(i);
+        cnt = cnt + 1;
+end end
+
+  n = load_points;
+A_y = 0;
+B_y = 0;
+moment_sum = 0;
+for i = 1:cnt-1
+    moment_sum = moment_sum + load_points(i)*load;
+end
+     B_y = moment_sum/1200;
+   A_y = (cnt-1)*(load) - B_y;
+   for i = 1:1201
+       g = 0;
+       for j = 1:(cnt-1)
+           if load_points(j) < i
+g = g + load;
+end end
+       shear_vals(i) = A_y - g;
+end
+   shear_vals(1201) = 0;
+end
+ function moment_vals = find_moment_vals(x) %function that calculates BMD
+for each train position
+ 
+  shear_vals = find_shear_vals(x);
+moment_vals = zeros(1,1201);
+loads = [52,228,392,568,732,908] + x;
+   load_points = [];
+cnt = 1;
+for i = 1:6
+    if loads(i) >= 0 & loads(i) < 1201
+        load_points(cnt) = loads(i);
+        cnt = cnt + 1;
+end end
+  for i = 1:load_points(1)
+    moment_vals(i+1) = moment_vals(i) + shear_vals(i);
+end
+for i = 1:(cnt-2)
+    for j = load_points(i)+1:load_points(i+1)
+        moment_vals(j+1) = moment_vals(j) + shear_vals(j);
+end end
+for i = load_points(end)+1:1200
+    moment_vals(i+1) = moment_vals(i) + shear_vals(i);
+end
+ end
+ 
+   function flex_buckle = flex_buckling_capacity(k, t, b) %calculates
+flexural buckling capacities
+  global E %Young's Modulus, Poisson's Ratio of Matboard
+global u
+    flex_buckle = ((k*((pi)^2)*E)/(12*(1-u^2)))*((t/b)^2); %flexural
+buckling formula
+end
+  function shear_buckle = shear_buckling_capacity(k, t, a,
+diaphragm_locations) %calculates shear buckling capacities between each
+set of diaphragms
+   global E %Young's Modulus, Poisson's Ratio of Matboard
+global u
+    for i = 1:length(diaphragm_locations)-1
+       x = diaphragm_locations(i+1) - diaphragm_locations(i);
+       shear_buckle(diaphragm_locations(i)+1:diaphragm_locations(i+1)+1)
+= ((k*((pi)^2)*E)/(12*(1-u^2)))*((t/a)^2 + (t/x)^2); %shear buckling
+formula
+end
+   end
