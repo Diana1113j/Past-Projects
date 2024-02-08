@@ -1,0 +1,51 @@
+
+  %Clean up workspace
+clc; close all; clear;
+%Set up BCs
+T_0 = 300;
+T_10 = 400;
+%Solve for three different n values
+n_1 = 5; n_2 = 10; n_3 = 50;
+[T_1, x_1] = solve_bvp(n_1, T_0, T_10);
+[T_2, x_2] = solve_bvp(n_2, T_0, T_10);
+[T_3, x_3] = solve_bvp(n_3, T_0, T_10);
+%Analytic solution
+x_exact = 0:0.01:10;
+T_exact = 200 + 20.4671*exp(sqrt(0.05)*x_exact) + 79.5329*exp(-sqrt(0.05)*x_exact);
+%Plot!
+figure
+plot(x_1, T_1, '--ok', 'LineWidth', 1.25);
+hold on
+plot(x_2, T_2, '--ob', 'LineWidth', 1.25);
+plot(x_3, T_3, '-or', 'LineWidth', 1.25);
+plot(x_3, T_3, '-g', 'LineWidth', 1.25);
+%Annotations
+title('BVP: Rod Temperature')
+ylabel('Temperature (K)')
+xlabel('Axial Position (m)')
+legend('n=5', 'n=10', 'n=50', 'Exact', 'Location', 'NorthWest')
+grid on
+ 
+    % For this BVP, n=50 provides good accuracy,
+% while being computationally efficient
+   function [T, x] = solve_bvp(n, T_0, T_10)
+    %Define constants
+    h_p = 0.05;
+    T_inf = 200;
+    dx = 10/n;
+    x = 0:dx:10;
+    %k1*T(x-dx) + k2*T(x) + k3*T(x+dx)
+    k1 = 1/dx^2;
+    k2 = -2/dx^2 - h_p;
+    k3 = 1/dx^2;
+    %Compose A by exploiting its tridiagonal structure
+    %For n subdivisions, there are n-1 interior points
+    A = diag(k1*ones(n-2,1), -1) + diag(k2*ones(n-1,1), 0) + diag(k3*ones(n-2,1), 1);
+    b = -h_p*T_inf*ones(n-1,1);
+    %Boundary conditions
+    b(1) = b(1) - T_0*k1;
+    b(end) = b(end) - T_10*k3;
+    T_interior = A\b;
+    T = [T_0; T_interior; T_10]; %Include boundary conditions in the final solution
+end
+ 
