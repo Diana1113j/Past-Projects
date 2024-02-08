@@ -1,0 +1,340 @@
+\documentclass[11pt, twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{cancel}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage[top=10mm, bottom=16mm, left=10mm, right=10mm,foot=8mm, marginparsep=0mm]{geometry}
+
+\title{Analyzing the Relationship Between Amplitude and Period in a Damped Harmonic Oscillator System}
+\author{H. Jung}
+\date{December 6, 2023}
+
+\begin{document}
+
+\maketitle
+\section{Introduction}
+
+The intricacies of pendulum behavior are observed with a particular focus on asymmetry analysis and Q factor evaluation to determine whether it is an ideal model.
+\\
+\begin{align}
+T = T_0 (1 + B\theta_0 + C\theta_0^2 + \ldots\ ) [1]\label{eq:example}
+\end{align}
+
+
+\vspace{1em}Through the analysis of the power series of the period equation, the pendulum is demonstrated to be symmetrical as \( B \) equals \( 0.001 \, \text{rad}^{-1} \pm 0.007 \, \text{rad}^{-1} \), indicating a zero slope. Moreover, the lab illustrates the independence of the period on the angle within the range of \( -0.44 \, \text{rad} \pm 0.02 \, \text{rad} \) to \( 0.40 \, \text{rad} \pm 0.02 \, \text{rad} \) and its dependence outside of the range.\newline
+
+The Q factor is a dimensionless measure of the damping of a resonant system, with a higher Q factor indicating less energy and a more ideal system [2]. For the two methods of calculating the Q factor, counting the number of oscillations and the calculation of the following mathematical model were utilized.
+
+\begin{align}
+\theta(t) = \theta_0 e^{-t/\tau} \cos\left(2\pi\frac{t}{T} + \phi_0\right) [1] \label{eq:example}
+\end{align}
+
+\begin{align}
+Q = \pi \frac{\tau}{T} [1] \label{eq:example}
+\end{align}
+
+\vspace{1em}The comparison of the value of the Q factor using two different procedures identifies if this pendulum could be considered an ideal model.\newline
+
+Furthermore, the lab ultimately examines the influence of the length of the pendulum on the period and the Q factor through generating a specific ratio of tau with the length of the pendulum.
+
+\begin{align}
+\tau \propto L^{-0.22}  \label{eq:example}
+\end{align}
+
+
+Tau indicates the extent to which the experimental result deviates from the theoretical expectation. As tau has a certain ratio relationship with the length of the pendulum illustrated in the equation below for the experiment, this demonstrates that the Q factor and the length are dependent on each other with tau.
+
+\begin{align}
+T \approx 2 \sqrt{L} \ [1]  \label{eq:example}
+\end{align}
+
+\begin{align}
+T = kL^n \ [1]  \label{eq:example}
+\end{align}
+
+
+\vspace{1em} % Adds 1em (an approximate unit of vertical space) at the top
+Through the equation provided above, \(k\) value and \(n\) value are generated, with \(2.14 \, \frac{\text{s}}{\sqrt{m}} \pm 0.02 \, \frac{\text{s}}{\sqrt{m}}\) and \(n = 0.48 \pm 0.02\). This indicates a notable disparity in the value of \(k\), which is due to the influence of air resistance and friction on the inconsistency of the value of \(\tau\) throughout the experiment.
+
+
+\section{Methodology}
+
+\subsection{Significant details/justification of the pendulum}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=2in]{unnamed.jpg}
+\caption{Frontal orientation of the Pendulum}
+\end{figure}
+The picture of the Experimental design of the pendulum model is in Figure 1. Symmetrical pendulum was generated using a uniform flat lock as the mass in order to minimize air resistance which contributes as an error. As the flat lock has an even mass distribution, the likelihood of tilting into 3D motion is minimized. No other force besides gravity was applied to the mass. The string was fixed tightly onto a well-anchored pencil attached horizontally onto the table serving as the pendulum's pivot pint. Stabilization of the pencil was ensured through multiple layers of duct tape and adhesive putty. This arrangement guaranteed its immobility during the pendulum's motion, allowing symmetrical pendulum oscillations. 
+
+\subsection{Experimental Procedures} 
+\noindent
+\textbf{Lab 1}\
+\\The locker is lifted to  \(\frac{\pi}{3}\)
+ rad from its equilibrium state and released from the position. The phone used to record the video was fixed to the chair to minimize shakings. Through the “Tracker” app, the mass is autotracked with the protractor set to 0 degrees in equilibrium position [3] .  The angle of the mass is calculated subject to the time elapsed.\\
+\\
+\textbf{Lab 2}\
+\\Fixed on the justified small angle of 0.40 rad, the length of the pendulum is systematically varied from 0.2m to 1.1m in increments of 0.1m. For each length, The video is recorded for each length of the pendulum until it reaches 46\% of initial amplitude. Counting the number of oscillations was utilized for evaluation of the Q factor in this experiment, further elaborated in section \textbf{3.2}. 
+
+\section{Results and Analysis}
+\subsection{Justification of ``Small Angle"}
+\begin{center}
+    \includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 5.27.12 PM.png}
+\end{center}
+
+Figure 2: Period (s) vs Angle (rad) experimental graph with 12 varying angles analyzing asymmetry and ``small angle''
+
+In Figure 2, the data demonstrates how the period is independent of the angle within the range of \( -0.44 \, \text{rad} \pm 0.02 \, \text{rad} \) to \( 0.40 \, \text{rad} \pm 0.02 \, \text{rad} \) , which is the ``small angle". 
+Unlike how the period is approximately constant if the amplitude of the pendulum's motion is relatively small, the initial angle of pendulum at its release in Lab 1 is large [4]. Therefore, the period is longer, and ultimately, the period of the pendulum becomes dependent on the angle. 
+
+Furthermore, figure 1 is utilized for asymmetry analysis. 
+\subsection{Asymmetry Analysis}
+Line of best fit is a quadratic in the form,
+\[ T = T_0 (1 + B\theta_0 + C\theta_0^2 + \ldots) [1] \]
+\textbf{Best-fit quadratic equation }\
+
+\[ y = 0.516x^2 + 0.001x + 1.11 \]
+\textbf{Power series of period }\
+
+\[ T = T_0 (1 + B + C) \]
+
+The quadratic equation was integrated into the power series of period to receive the \( B \) value.
+\[ T = 1.11(1 + 0.001x + 0.45x^2) \]
+
+\[ B = 0.001 \, \text{rad}^{-1} \pm 0.007 \, \text{rad}^{-1} \]
+
+\[ C = 0.45 \, \text{rad}^{-2} \pm 0.01 \, \text{rad}^{-2} \]
+
+Since the value is smaller than the uncertainty, \( B \) is experimentally zero. Therefore, the graph is symmetrical and close to an ideal model.
+
+\begin{center}
+\includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 5.27.36 PM.png}
+
+\end{center}
+Figure 3: Linear line of best fit for the Period vs Angle of Pendulum
+\vspace{1em}Figure 3 depicts data tested for asymmetry. The linear line of best fit illustrates the symmetry in the pendulum as the line of best fit has a zero slope.
+
+\begin{center}
+\includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 6.01.02 PM.png}
+
+\end{center}
+Figure 4: Time vs Angular Amplitude graph in an 80 second span demonstrating the exponential decay of the pendulum
+
+\\
+\vspace{1em}The initial angle of the experiment of Figure 4 was set up in the range within the experimented ``small angle" as this is where the period is independent of the angle. Figure 4's data illustrates that the pendulum's period has an exponential decay of the line of best fit. It indicates as the time increases, the highest value in the oscillation decreases following an exponential decay function. 
+\\Figure 4 was then utilized to calculate the number of oscillations for the Q factor. The few data points that do not align with the line of best fit is due to human error, which occurred while manually picking data from the app ``tracker" to find the highest points in each oscillation.
+
+\subsection{Calculation of the Q Factor}
+
+Q factor was measured in the angular direction of the plane.
+
+\subsubsection*{Method 1: Calculation of the Equation}
+
+\[
+\theta(t) = \theta_0 e^{-t/\tau} \cos\left(2\pi\frac{t}{T} + \phi_0\right) [1]
+\]
+
+Since \(\cos\left(2\pi\frac{t}{T} + \phi_0\right) = 1\), we can utilize the equation \(\theta(t) = \theta_0 e^{-t/\tau}\) to find \(\tau\) in order to find the \(Q\) value.
+
+\\
+Python code was utilized to calculate the Q factor. 
+\begin{verbatim}
+def monoExp(x, m, t):
+    return m * np.exp(-t * x)
+\end{verbatim}
+
+\[
+\tau = \frac{1}{0.0267} = 37.5 \, \text{s}
+\]
+
+Error rate: \(\pm 0.7\)\newline
+
+Given \(T = 2 \sqrt{L}\) and \(L = 0.35 \, \text{m}\),
+\[
+T = 1.18 \, \text{s}
+\]
+
+Error rate: \(\pm 0.02\)\newline
+
+\[
+Q = \pi \frac{\tau}{T} [1]
+\]
+
+\[
+\therefore Q = 99 \pm 2
+\]
+
+\subsubsection*{Method 2: Counting the Number of Oscillations}
+
+The Q factor is defined as 2 times the number of oscillations required for the stored energy to decay to \((1/e \approx 37\%\)) of its initial value [5].
+
+\vspace{1em}
+
+Initial amplitude of the pendulum = \(0.52 \, \text{rad} \pm 0.02 \, \text{rad}\)
+
+20\% of the initial amplitude = \(0.104 \, \text{rad} \pm 0.02 \, \text{rad}\)
+
+Number of oscillations until it reaches 20\% of the initial amplitude = 54
+
+Below is the Q factor with error rates:
+
+\[
+\therefore Q = 108 \pm 1
+\]
+
+\subsection{Selection of Method for Lab 2 and its Justification}
+
+As the magnitude of uncertainties is smaller for Method 2 than Method 1, in Lab 2, Method 2 must be utilized to calculate the Q factor as it is more accurate. Furthermore, since greater numbers of data points utilize a more accurate value for Q factor determination, the method for calculating the Q factor was subsequently modified from \(2N = Q\) to \(4N = Q\).
+
+\subsection{Comparative Analysis of Q factors}
+The criteria for Q factors to agree with each other is to have them overlap in the two uncertainty ranges. The Q factor found through the calculation of the equation is \(99 \pm 2\), and the one generated through counting the number of oscillations is \(108 \pm 1\).\newline
+
+Although the two values of Q factors suggest that the pendulum is efficient in energy as it is high, the two methods of calculating the Q factor did not agree with each other, as the uncertainty ranges for the two factors do not overlap.\newline
+
+
+Variations in the experimental environment, including factors such as air currents or fluctuations in temperature, can exert discernible effects on the dynamics of the pendulum. Particularly, the influence of air resistance, may exhibit variability between the theoretical model and the experimental counting method, thereby resulting a consequential impact on the obtained results.
+
+
+\subsection{Analysis of the relationship between Q factors and the length of pendulum}
+\begin{center}
+\includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 5.27.44 PM.png}
+
+\end{center}
+Figure 5: Interdependence illustrated in Q factor vs Pendulum Length Plot and Line of best fit 
+
+\\\vspace{1em}Figure 5's data illustrates the dependence of Q factor on the length of the pendulum. 
+
+\vspace{1em}The following two equations, \[
+Q = \pi \frac{\tau}{T} [1]
+\]  \[T \approx 2 \sqrt{L} \ [1] \] leads to the formation of the equation for Q factor and the length of the pendulum which is provided below. 
+
+\begin{align}
+Q = \frac{\pi \tau}{2\sqrt{L}} \label{eq:example}
+\end{align}
+Since the period is limited to the small angle approximation in  \[
+Q = \pi \frac{\tau}{T} [1] 
+\] and \[T \approx 2 \sqrt{L} \ [1] \] , the derived equation is limited to ``small angle" as well. 
+In this context, analysis of the role of \(\tau\) is crucial. The value of \(n\) is \(= -0.72 \pm 0.02\), generated by the app ``python". As \(\tau\) is not constant throughout the experiment, \(n\) is not close to the expected value of -0.50. Therefore, the following relationship is utilized:
+
+\begin{align}
+Q \propto \frac{\tau}{\sqrt{L}} \label{eq:example}
+\end{align}
+
+Where 
+\begin{align}
+L^{-0.72} \propto \frac{\tau}{L^{-0.5}}\
+\end{align}
+
+therefore 
+\begin{align}
+\tau \propto L^{-0.22}\
+\end{align}
+is produced as the relationship between \(\tau\) and length. Since the experiment is not done in an ideal environment such as a vacuum, friction and air resistance are present, causing damping effects that alter the pendulum’s oscillatory behavior. Consequently, \(\tau\) varies due to these factors, having inconsistent values throughout the experiment.
+
+Therefore, the \(Q\) factor and length of the pendulum are interdependent.
+
+\subsection{Analysis of the period and Length of the Pendulum }
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 5.28.02 PM.png}
+
+\end{figure}
+Figure 6: Pendulum Period vs Pendulum Length plot and the relationship with tau\newline
+
+``Python" gives the value of k and n from the collected data; \( k = 2.14 \, \frac{\text{s}}{\sqrt{m}} \pm 0.02 \, \frac{\text{s}}{\sqrt{m}}\) and \(n = 0.48 \pm 0.02\). Theoretically, the value of k should be 2 and the value of n should be 0.5.\newline
+The values reveal that even when the associated uncertainties are taken into consideration, there is notable disparity between the experimental and theoretical values of k. Given that the experiment was conducted under the small initial angles, the theoretical and experimental values of k should align within uncertainties. In this context, it is clear that tau played a pivotal role in influencing the data for k. Section \textbf{ 3.5 }\ elaborates how the length is intricately linked with tau.\newline
+ To illustrate, if the experiment is conducted in a vacuum system, it minimizes the external factors that influence tau, therefore yielding results that closely align with the theoretical expectations. 
+
+\begin{center}
+\includegraphics[width=0.35\textwidth]{Screen Shot 2023-12-06 at 5.28.11 PM.png}
+
+\end{center}
+Figure 7: Pendulum Period vs Pendulum Length plot and the line of best fit in logscale 
+
+\vspace{1em}
+Figure 7's data is made through taking the log-log plot of x and y axis of figure 6's data. Since this graph demonstrates a positive linear graph, it is proved that figure 6 is a power function. 
+\subsection{Numerical Uncertainties}
+
+\textbf{Systematic Uncertainties}
+
+\textit{Uncertainty of Length}:
+The imprecision of measuring the string will alter values for \(Q\) in the equation \[Q = \pi \frac{\tau}{T} \quad [1]\]
+It is \(\pm 0.5\) mm.\newline
+
+
+\textbf{Statistical Uncertainties}
+
+\textit{Uncertainty of \(\tau\)}:
+The uncertainty of \(\tau\) is calculated through the Python code elaborated further in section \textbf{3.3}.
+
+\textit{Camera Frame}:
+The video is filmed with 30 FPS, which indicates that one frame is filmed in \(1/30\) seconds, and the uncertainty of the period is \(\pm 1/60\) seconds. Therefore, it is \(\pm 0.02\) seconds.
+
+\textit{Meter Stick}:
+A meter stick was utilized to calculate the length of the pendulum. The uncertainty of \(\pm 0.02\) m is used.
+
+\textit{Tracker}:
+The error of the calibration stick in the app ``Tracker" is \(\pm 2\) mm, and therefore, since the angle was measured through ``Tracker," the error rate of the angle is \(\pm 0.02\) rad [3].\newline
+
+\textbf{Other Sources of Error}
+
+The error rate for a mistake in counting the number of oscillations is \(\pm 0.5\). Therefore, the error rate for \(Q\) is \(2 \times \pm 0.5 = \pm 1\).
+
+
+\section{Conclusion}
+In this experiment, the behavior of the pendulum demonstrated various findings. \newline
+
+ There was a specific emphasis on analyzing asymmetry, justifying the small angle approximation, and evaluating the Q factor to assess whether the pendulum is ideal was performed. Asymmetry of the period vs angle quadratic graph was tested, generating a value of \(B = 0.001 \, \text{rad}^{-1} \pm 0.007 \, \text{rad}^{-1}\). The experimentally zero value of \(B\) indicated the symmetrical state of the pendulum. The small angle approximation was justified as dependence of period on the amplitude was evident in angles outside of the range \(-0.44 \, \text{rad} \pm 0.02 \, \text{rad}\) to \(0.40 \, \text{rad} \pm 0.02 \, \text{rad}\). The two Q factor measurements did not agree, as they did not align within the error range.
+Fluctuations in the experimental conditions, encompassing elements like air currents and temperature variations could have influenced the behavior of the pendulum. Specifically, the impact of air resistance may have demonstrated variances between the theoretical model and the counting method, therefore causing inconsistencies between the acquired results.\newline
+
+
+
+
+
+
+The largest uncertainty source in calculating the Q factor for method 1 was in the uncertainty of calculation of \(\tau\) as it was \(\pm 0.7\). In future experiments, having a higher frame per second will generate a more accurate value of period, ultimately getting a more accurate value of \(\tau\).
+
+The largest uncertainty source for method 2 was the uncertainty of counting oscillations as it was \(1\). In future experiments, improvement in data collection for the highest points for each oscillation through implementing digital counting rather than manually counting will be utilized.\newline
+
+Moreover, the pendulum's behavior was specifically focused on how the length of the pendulum influences both period and the Q factor. The specific ratio relationship of \(\tau \propto L^{-0.22}\) suggests the crucial role of \(\tau\) in \( k = 2.14 \, \frac{\text{s}}{\sqrt{m}} \pm 0.02 \, \frac{\text{s}}{\sqrt{m}}\)misalignment with theoretical values.\newline
+
+In further experiments, the pendulum experiment will be conducted within a controlled vacuum environment in order to mitigate the external variables affecting \(\tau\). This controlled setting will allow for experimental results that exhibit higher alignment with the theoretical values.
+
+
+
+
+
+
+
+\subsection*{Works Cited }
+\noindent
+[1] Wilson, Brain B.W. (2023). PHY180 Lab Project. Quercus.\\
+PHY180-PendulumProjectGuidelines-2023.pdf.url\\
+\\
+\noindent
+[2] "What is a Q factor?," Collimator,\\
+\url{https://www.collimator.ai/reference-guides/what-is-a-q-factor#:~:text=The%20Q%20factor%2C%20 also%20 known,oscillates%20at%20its%20 resonant%20frequency 
+}\\
+\\
+
+\noindent
+[3] Tracker Video Analysis Software. (Version 5.1.4) [Computer software]. Open Source Physics. \\
+\url{https://physlets.org/tracker/}\\
+
+\noindent
+[4] Russell, D. (2018, June 18). Acoustics and Vibration Animations. Oscillation of a Simple  Pendulum. 
+\url{https://www.acs.psu.edu/drussell/Demos/Pendulum/Pendulum.html}\\
+\\
+\noindent
+[5]  Paschotta, Dr. R. (2023, September 6). q    factor. Q factor, explained by RP; quality factor, cavity, resonator, oscillator, frequency standards. \\
+\url{https://www.rp-photonics.com/q_factor.html#:~:text=The%20factor%20equals%202%20times%20the%20number%20of%20oscillation%20periods,by%20the%20free%20spectral%20range.}\\
+
+ 
+\end{document}
